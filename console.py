@@ -1,8 +1,9 @@
 #!/usr/bin/python3
 """Module for the console"""
 import cmd
-from models.base_model import BaseModel 
-from models import storage
+from models.base_model import BaseModel
+from models.user import User
+from models import dict_greyson, storage
 
 class HBNBCommand(cmd.Cmd):
     """class for the command console"""
@@ -19,26 +20,39 @@ class HBNBCommand(cmd.Cmd):
         return True
 
     def do_create(self, args):
+        """Creates a new instance of a class
+        and prints its id
+
+        usage: create <Class Name>
+        Ex: create BaseModel
+        """
         #error handling
         if len(args) == 0:
             print("** class name missing **")
-        elif args != "BaseModel":
+        elif args not in dict_greyson.keys():
             print("** class doesn't exist **")
         else:
+            objClass = dict_greyson[args]
             #creates a new base model
-            b = BaseModel()
+            b = objClass()
             #saves to json doc
             b.save()
             #prints ID
             print(b.id)
 
     def do_show(self, args):
+        """prints the string representation of
+        an instance
+
+        usage: show <class name> <id>
+        ex: show BaseModel 1234-1234-1234
+        """
         #array of words from args
         strArr = args.split(" ")
         #error handling
         if args == 0:
             print("** class name missing **")
-        elif strArr[0] != "BaseModel":
+        elif strArr[0] not in dict_greyson.keys():
             print("** class doesn't exist **")
         elif len(strArr) < 2:
             print("** instance id missing **")
@@ -55,16 +69,21 @@ class HBNBCommand(cmd.Cmd):
             #prints object
             else:
                 print(item)
-        
+
 
     def do_destroy(self, args):
+        """deletes an instance
+
+        usage: destroy <class name> <id>
+        Ex: destroy BaseModel 1234-1234-1234
+        """
         #array of words from args
         strArr = args.split(" ")
         #error handling
         if len(args) == 0:
             print("** class name missing **")
             return
-        elif strArr[0] != "BaseModel":
+        elif strArr[0] not in dict_greyson.keys():
             print("** class doesn't exist **")
             return
         elif len(strArr) < 2:
@@ -83,8 +102,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             del d[name]
             storage.save()
-    
+
     def do_all(self, args):
+        """displays all istances of a given class
+        or all instances if no class is specified
+
+        usage: all <class name>
+        Ex: all
+            lists all instances
+        Ex: all BaseModel
+            lists all instances of BaseModel
+        """
         #dict of all obj in class.ID: obj format
         d = storage.all()
         #final list
@@ -96,13 +124,13 @@ class HBNBCommand(cmd.Cmd):
                 #gets object for each name
                 item = d.get(o)
                 #adds str rep of each obj to list
-                l.append(str(item)) 
+                l.append(str(item))
         #Printing only specified objects
         else:
             #array of words from args
             strArr = args.split(" ")
             #checks if word is a recognized type
-            if strArr[0] != "BaseModel":
+            if strArr[0] not in dict_greyson.keys():
                 print("** class doesn't exist **")
                 return
             else:
@@ -111,63 +139,53 @@ class HBNBCommand(cmd.Cmd):
                     #splits cls.ID into cls and ID
                     nameSplitArr = o.split(".")
                     #checks if class is recognized
-                    if nameSplitArr[0] == "BaseModel":
+                    if nameSplitArr[0] == strArr[0]:
                         #gets object for each name
                         item = d.get(o)
                         #adds str rep of each obj to list
-                        l.append(str(item)) 
+                        l.append(str(item))
         #prints list of str formatted objects
         print(l)
 
     #Usage: update <class name> <id> <attribute name> "<attribute value>"
     def do_update(self, args):
+        """updates an attribute of an instance
+
+        usage: update <class name> <id> <attribute> "<attribute value>"
+        Ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
+        """
         #dict of all obj in class.ID: obj format
-        d = storage.all()        
+        d = storage.all()
         #if args is empty
         if len(args) == 0:
             print("** class name missing **")
             return
         #array of words from args
         strArr = args.split(" ")
-        if len(strArr) == 1:
-            if strArr[0] != "BaseModel":
-                print("** class doesn't exist **")
-            else:
+        if len(strArr) < 4:
+            if len(strArr) == 1:
                 print("** instance id missing **")
-            return
-        elif len(strArr) == 2:
-            if strArr[0] != "BaseModel":
-                print("** class doesn't exist **")
-            elif d.get("BaseModel" + "." +  strArr[1]) == None:
-                print("** no instance found **")
-            else:
-                print("** attribute name missing **") 
-        elif len(strArr) == 3:
-            if strArr[0] != "BaseModel":
-                print("** class doesn't exist **")
-            elif d.get("BaseModel" + "." +  strArr[1]) == None:
-                print("** no instance found **")
-            else: 
+                return
+            elif len(strArr) == 2:
                 print("** attribute name missing **")
-        else:
-            if strArr[0] != "BaseModel":
-                print("** class doesn't exist **")
-            elif d.get("BaseModel" + "." +  strArr[1]) == None:
-                print("** no instance found **")
-            try:
-                #gets object
-                obj = d.get("BaseModel" + "." +  strArr[1])
-                setattr(obj, strArr[2], strArr[3])
-                obj.save() 
-            #attribute value doesen't exist:
-            except Exception:
+            else:
                 print("** value missing **")
-
-        #UPDATE UPDATEDAT
-
-
-
-    
+            return
+        else:
+            if strArr[0] not in dict_greyson.keys():
+                 print("** class doesn't exist **")
+            else:
+                obj = d.get(strArr[0] + "." +  strArr[1])
+                if obj == None:
+                    print("** no instance found **")
+                    return
+                try:
+                    #gets object
+                    setattr(obj, strArr[2], strArr[3])
+                    obj.save()
+                #attribute value doesen't exist:
+                except Exception:
+                    print("** value missing **")
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()

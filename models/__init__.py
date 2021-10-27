@@ -1,5 +1,12 @@
-from models.engine.file_storage import FileStorage
-import models.base_model
-storage = FileStorage()
+import models.engine.file_storage as file_storage
+from models.base_model import BaseModel
+from models.user import User
+
+
+storage = file_storage.FileStorage()
 storage.reload()
-#make dictionary of {className: class} here
+
+dict_greyson = {
+    "BaseModel": BaseModel,
+    "User": User
+    }
