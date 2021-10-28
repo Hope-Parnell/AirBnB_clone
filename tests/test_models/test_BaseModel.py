@@ -4,6 +4,7 @@
 
 import unittest
 from models.base_model import BaseModel
+import datetime
 
 
 class TestBaseModel(unittest.TestCase):
@@ -11,21 +12,22 @@ class TestBaseModel(unittest.TestCase):
 
     # Setting up using ClassMethod to check __init__
 
-    @classmethod
-    def setUpClass(cls):
-        pass
+    def setUp(self):
+        a = BaseModel()
+        b = BaseModel()
+        c = BaseMode(id=69, created_at="1000-07-29T12:14:07.132263", 
+            updated_at="1020-02-13T07:10:03.134263")
+        #c = BaseModel()
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
         pass
 
     # Testing correct values happened during __init__
 
-    def testInstantation(self):
-        pass
+    def testIDUniqueness(self):
+        self.assertNotEqual(a.id, b.id)
+        #check types
+        self.assertEqual(c.id, 69)
+        self.assertIsInstance(c.created_at, datetime.datetime)
+        self.assertIsInstance(c.updated_at, datetime.datetime)
 
-    # Testing instantation errors
-
-    def testInitErrors(self):
-        with self.assertRaises(TypeError):
-            pass

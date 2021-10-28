@@ -2,17 +2,25 @@
 """Test the console module"""
 import unittest
 import pycodestyle
+import os
 
 
 class TestAll(unittest.TestCase):
     """Tests over-arching things"""
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
         """sets up the class"""
+        files = ['models/engine/file_storage.py',
+                'models/amenity.py',
+                'models/base_model.py',
+                'models/city.py',
+                'models/place.py',
+                'models/review.py',
+                'models/state.py',
+                'models/user.py',
+                'console.py']
         pass
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
         """cleans up the class"""
         pass
 
@@ -35,15 +43,6 @@ class TestAll(unittest.TestCase):
 
     def testShebang(self):
         """tests for shebang at begining of file"""
-        files = ['models/engine/file_storage.py',
-                'models/amenity.py',
-                'models/base_model.py',
-                'models/city.py',
-                'models/place.py',
-                'models/review.py',
-                'models/state.py',
-                'models/user.py',
-                'console.py']
         for item in files:
             with open(item) as f:
                 self.assertEqual(f.readline(), "#!/usr/bin/python3\n",
@@ -55,3 +54,8 @@ class TestAll(unittest.TestCase):
             self.assertNotEqual(len(f.read()), 0," README is empty")
         with open("tests/README.md") as f:
             self.assertNotEqual(len(f.read()), 0, "README is empty")
+
+    def testExecutable(self):
+        for item in files:
+            self.assertTrue(os.access(item, os.X._OK), 
+                "File {} is not executable".format(item))
