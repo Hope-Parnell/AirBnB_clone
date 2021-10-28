@@ -41,3 +41,13 @@ class FileStorage:
                 self.__objects = newDict
         except Exception:
             pass
+
+        @property
+        def file_path(self):
+            """gets the current file path"""
+            return self.__file_path
+
+        @file_path.getter
+        def file_path(self, filePath):
+            """sets the file to save to or load from"""
+            self.__file_path = filePath
