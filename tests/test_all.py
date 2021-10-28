@@ -25,12 +25,12 @@ class TestAll(unittest.TestCase):
         pass
 
     def testPycodestyle(self):
-            """Testing pycodestyle validation"""
-            check = pycodestyle.StyleGuide(quiet=True)
-            unittest.result = check.check_files(self.files)
+        """Testing pycodestyle validation"""
+        check = pycodestyle.StyleGuide(quiet=True)
+        unittest.result = check.check_files(self.files)
 
-            self.assertEqual(unittest.result.total_errors, 0,
-                            "Found code style errors (and warnings).")
+        self.assertEqual(unittest.result.total_errors, 0,
+            "Found code style errors (and warnings).")
 
     def testShebang(self):
         """tests for shebang at begining of file"""

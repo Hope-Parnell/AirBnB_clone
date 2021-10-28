@@ -11,21 +11,21 @@ class TestAmenity(unittest.TestCase):
 
     # Setting up using ClassMethod to check __init__
 
-    @classmethod
-    def setUpClass(cls):
-        pass
+    def setUp(self):
+        """setup before each method"""
+        self.a = City()
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
+        """cleanup after each method"""
         pass
 
     # Testing correct values happened during __init__
 
     def testInstantation(self):
-        pass
-
-    # Testing instantation errors
-
-    def testInitErrors(self):
-        with self.assertRaises(TypeError):
-            pass
+        """test initilization"""
+        self.assertEqual(self.a.name, "")
+        self.assertEqual(self.a.state_id, "")
+        aDict = self.a.to_dict()
+        b = City(**aDict)
+        self.assertEqual(b.to_dict(), aDict)
+        self.assertFalse(self.a is b)

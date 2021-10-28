@@ -9,23 +9,22 @@ from models.review import Review
 class TestReview(unittest.TestCase):
     """Testing the Review Class"""
 
-    # Setting up using ClassMethod to check __init__
+    def setUp(self):
+        """setup before each method"""
+        self.a = Review()
 
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
+        """cleanup after each method"""
         pass
 
     # Testing correct values happened during __init__
 
     def testInstantation(self):
-        pass
-
-    # Testing instantation errors
-
-    def testInitErrors(self):
-        with self.assertRaises(TypeError):
-            pass
+        """test initilization"""
+        self.assertEqual(self.a.place_id, "")
+        self.assertEqual(self.a.user_id, "")
+        self.assertEqual(self.a.text, "")
+        aDict = self.a.to_dict()
+        b = Review(**aDict)
+        self.assertEqual(b.to_dict(), aDict)
+        self.assertFalse(self.a is b)

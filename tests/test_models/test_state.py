@@ -9,23 +9,20 @@ from models.state import State
 class TestState(unittest.TestCase):
     """Testing the State Class"""
 
-    # Setting up using ClassMethod to check __init__
+    def setUp(self):
+        """setup before each method"""
+        self.a = State()
 
-    @classmethod
-    def setUpClass(cls):
-        pass
-
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
+        """cleanup after each method"""
         pass
 
     # Testing correct values happened during __init__
 
     def testInstantation(self):
-        pass
-
-    # Testing instantation errors
-
-    def testInitErrors(self):
-        with self.assertRaises(TypeError):
-            pass
+        """test initilization"""
+        self.assertEqual(self.a.name, "")
+        aDict = self.a.to_dict()
+        b = State(**aDict)
+        self.assertEqual(b.to_dict(), aDict)
+        self.assertFalse(self.a is b)

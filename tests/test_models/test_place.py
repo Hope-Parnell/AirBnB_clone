@@ -8,24 +8,31 @@ from models.place import Place
 
 class TestPlace(unittest.TestCase):
     """Testing the Place Class"""
-
-    # Setting up using ClassMethod to check __init__
-
-    @classmethod
-    def setUpClass(cls):
+    def setUp(self):
+        """setup before each method"""
+        self.a = Place()
         pass
 
-    @classmethod
-    def tearDownClass(cls):
+    def tearDown(self):
+        """cleanup after each method"""
         pass
 
     # Testing correct values happened during __init__
 
     def testInstantation(self):
-        pass
-
-    # Testing instantation errors
-
-    def testInitErrors(self):
-        with self.assertRaises(TypeError):
-            pass
+        """tests initilization"""
+        self.assertEqual(self.a.city_id, "")
+        self.assertEqual(self.a.user_id, "")
+        self.assertEqual(self.a.name, "")
+        self.assertEqual(self.a.description, "")
+        self.assertEqual(self.a.number_rooms, 0)
+        self.assertEqual(self.a.number_bathrooms, 0)
+        self.assertEqual(self.a.max_guest, 0)
+        self.assertEqual(self.a.price_by_night, 0)
+        self.assertEqual(self.a.latitude, 0.0)
+        self.assertEqual(self.a.longitude, 0.0)
+        self.assertEqual(self.a.amenity_ids, [])
+        aDict = self.a.to_dict()
+        b = Place(**aDict)
+        self.assertEqual(b.to_dict(), aDict)
+        self.assertFalse(self.a is b)
