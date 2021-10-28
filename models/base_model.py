@@ -15,6 +15,8 @@ class BaseModel:
                 if item == 'created_at' or item == 'updated_at':
                     self.__dict__.update({item: datetime.datetime.strptime(
                         kwargs.get(item), '%Y-%m-%dT%H:%M:%S.%f')})
+                elif item == "__class__":
+                    pass
                 else:
                     self.__dict__.update({item: kwargs.get(item)})
         else:

@@ -27,5 +27,4 @@ class TestUser(unittest.TestCase):
     # Testing instantation errors
 
     def testInitErrors(self):
-        with self.assertRaises(TypeError):
             pass
