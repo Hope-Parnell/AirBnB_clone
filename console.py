@@ -3,12 +3,18 @@
 import cmd
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 from models import dict_greyson, storage
 
 
 class HBNBCommand(cmd.Cmd):
     """class for the command console"""
     prompt = '(hbnb)'
+    storage.reload()
 
     def emptyline(self):
         pass
@@ -161,7 +167,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         #  array of words from args
-        strArr = args.split(" ")
+        strArr = args.split(" ", 3)
         if len(strArr) < 4:
             if len(strArr) == 1:
                 print("** instance id missing **")
@@ -181,6 +187,7 @@ class HBNBCommand(cmd.Cmd):
                     return
                 try:
                     #  gets object
+                    strArr[3] = strArr[3].split('"')
                     setattr(obj, strArr[2], strArr[3])
                     obj.save()
                 #  attribute value doesen't exist:
