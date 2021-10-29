@@ -63,7 +63,7 @@ class HBNBCommand(cmd.Cmd):
         #  array of words from args#
         strArr = args.split(" ")
         #  error handling
-        if args == 0:
+        if len(args) == 0:
             print("** class name missing **")
         elif strArr[0] not in dict_greyson.keys():
             print("** class doesn't exist **")
