@@ -200,7 +200,7 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                     return
                 try:
-                #  gets object
+                    # gets object
                     if strArr[3][0] != '"':
                         print("** value missing **")
                         return
@@ -217,7 +217,7 @@ class HBNBCommand(cmd.Cmd):
                         strArr[3] = attrType(strArr[3])
                     setattr(obj, strArr[2], strArr[3])
                     obj.save()
-                except:
+                except Exception:
                     print("** {} is not a valid value for {} **".format(
                         strArr[3], strArr[2]))
                     print("** {} must be a(n) {} **".format(
