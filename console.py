@@ -201,8 +201,16 @@ class HBNBCommand(cmd.Cmd):
                     return
                 try:
                 #  gets object
-                    if strArr[3][0] == '"' and strArr[3][-1] == '"':
-                        strArr[3] = strArr[3][1:-1]
+                    if strArr[3][0] != '"':
+                        print("** value missing **")
+                        return
+                    for i in range(1, len(strArr[3])):
+                        if strArr[3][i] == '"':
+                            break
+                    if strArr[3][i] != '"':
+                        print("** value missing **")
+                    else:
+                        strArr[3] = strArr[3][1:i]
                     if strArr[2] in obj.__dict__:
                         attrType = type(getattr(obj, strArr[2]))
                         strArr[3] = attrType(strArr[3])
