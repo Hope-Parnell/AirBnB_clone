@@ -40,7 +40,7 @@ class HBNBCommand(cmd.Cmd):
         Ex: create BaseModel
         """
 #       error handling
-        argList = args.split(" ")
+        argList = args.split()
         if len(argList[0]) == 0:
             print("** class name missing **")
         elif argList[0] not in dict_greyson.keys():
@@ -64,7 +64,7 @@ class HBNBCommand(cmd.Cmd):
         Ex: show BaseModel 1234-1234-1234
         """
         #  array of words from args#
-        strArr = args.split(" ")
+        strArr = args.split()
         #  error handling
         if args == 0:
             print("** class name missing **")
@@ -95,7 +95,7 @@ class HBNBCommand(cmd.Cmd):
         Ex: destroy BaseModel 1234-1234-1234
         """
         #  array of words from args
-        strArr = args.split(" ")
+        strArr = args.split()
         #  error handling
         if len(args) == 0:
             print("** class name missing **")
@@ -147,7 +147,7 @@ class HBNBCommand(cmd.Cmd):
         #  Printing only specified objects
         else:
             #  array of words from args
-            strArr = args.split(" ")
+            strArr = args.split()
             #  checks if word is a recognized type
             if strArr[0] not in dict_greyson.keys():
                 print("** class doesn't exist **")
@@ -181,7 +181,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         #  array of words from args
-        strArr = args.split(" ", 3)
+        strArr = args.split(maxsplit=3)
         if len(strArr) < 4:
             if len(strArr) == 1:
                 print("** instance id missing **")
