@@ -173,47 +173,47 @@ class HBNBCommand(cmd.Cmd):
             return
         #  array of words from args
         strArr = args.split(" ", 3)
+        if strArr[0] not in dict_greyson.keys():
+            print("** class doesn't exist **")
+            return
+        if len(strArr) > 1:
+            obj = d.get(strArr[0] + "." + strArr[1])
+            if obj is None:
+                print("** no instance found **")
+                return
         if len(strArr) < 4:
             if len(strArr) == 1:
                 print("** instance id missing **")
-                return
             elif len(strArr) == 2:
                 print("** attribute name missing **")
             else:
                 print("** value missing **")
             return
         else:
-            if strArr[0] not in dict_greyson.keys():
-                print("** class doesn't exist **")
-            else:
-                obj = d.get(strArr[0] + "." + strArr[1])
-                if obj is None:
-                    print("** no instance found **")
+            try:
+                # gets object
+                if strArr[3][0] != '"':
+                    print("** value missing **")
                     return
-                try:
-                    # gets object
-                    if strArr[3][0] != '"':
-                        print("** value missing **")
-                        return
-                    for i in range(1, len(strArr[3])):
-                        if strArr[3][i] == '"':
-                            break
-                    if strArr[3][i] != '"':
-                        print("** value missing **")
-                        return
-                    else:
-                        strArr[3] = strArr[3][1:i]
-                    if strArr[2] in obj.__dict__:
-                        attrType = type(getattr(obj, strArr[2]))
-                        strArr[3] = attrType(strArr[3])
-                    setattr(obj, strArr[2], strArr[3])
-                    obj.save()
-                except Exception:
-                    print("** {} is not a valid value for {} **".format(
-                        strArr[3], strArr[2]))
-                    print("** {} must be a(n) {} **".format(
-                        strArr[2], attrType.__name__))
+                for i in range(1, len(strArr[3])):
+                    if strArr[3][i] == '"':
+                        break
+                if strArr[3][i] != '"':
+                    print("** value missing **")
+                    return
+                else:
+                    strArr[3] = strArr[3][1:i]
+                if strArr[2] in obj.__dict__:
+                    attrType = type(getattr(obj, strArr[2]))
+                    strArr[3] = attrType(strArr[3])
+                setattr(obj, strArr[2], strArr[3])
+                obj.save()
+            except Exception:
+                print("** {} is not a valid value for {} **".format(
+                    strArr[3], strArr[2]))
+                print("** {} must be a(n) {} **".format(
+                    strArr[2], attrType.__name__))
 
 
 if __name__ == '__main__':
-    HBNBCommand().cmdloop()git
+    HBNBCommand().cmdloop()
