@@ -20,18 +20,24 @@ class HBNBCommand(cmd.Cmd):
         pass
 
     def do_EOF(self, args):
-        """Exits the console"""
+        """
+        Exits the console
+        """
         return True
 
     def do_quit(self, args):
-        """Exits the Console"""
+        """
+        Exits the Console
+        """
         return True
 
     def do_create(self, args):
-        """Creates a new instance of a class
+        """
+        Creates a new instance of a class
         and prints its id
 
-        usage: create <Class Name>
+        Usage: create <Class Name>
+
         Ex: create BaseModel
         """
 #       error handling
@@ -49,11 +55,13 @@ class HBNBCommand(cmd.Cmd):
             print(b.id)
 
     def do_show(self, args):
-        """prints the string representation of
+        """
+        Prints the string representation of
         an instance
 
-        usage: show <class name> <id>
-        ex: show BaseModel 1234-1234-1234
+        Usage: show <class name> <id>
+
+        Ex: show BaseModel 1234-1234-1234
         """
         #  array of words from args#
         strArr = args.split(" ")
@@ -79,9 +87,11 @@ class HBNBCommand(cmd.Cmd):
                 print(item)
 
     def do_destroy(self, args):
-        """deletes an instance
+        """
+        Deletes an instance
 
-        usage: destroy <class name> <id>
+        Usage: destroy <class name> <id>
+
         Ex: destroy BaseModel 1234-1234-1234
         """
         #  array of words from args
@@ -111,10 +121,12 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
 
     def do_all(self, args):
-        """displays all istances of a given class
+        """
+        Displays all istances of a given class
         or all instances if no class is specified
 
-        usage: all <class name>
+        Usage: all <class name>
+
         Ex: all
             lists all instances
         Ex: all BaseModel
@@ -155,9 +167,11 @@ class HBNBCommand(cmd.Cmd):
         print(objList)
 
     def do_update(self, args):
-        """updates an attribute of an instance
+        """
+        Updates an attribute of an instance
 
-        usage: update <class name> <id> <attribute> "<attribute value>"
+        Usage: update <class name> <id> <attribute> "<attribute value>"
+
         Ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
         #  dict of all obj in class.ID: obj format
@@ -186,13 +200,19 @@ class HBNBCommand(cmd.Cmd):
                     print("** no instance found **")
                     return
                 try:
-                    #  gets object
-                    strArr[3] = strArr[3].split('"')
+                #  gets object
+                    if strArr[3][0] == '"' and strArr[3][-1] == '"':
+                        strArr[3] = strArr[3][1:-1]
+                    if strArr[2] in obj.__dict__:
+                        attrType = type(getattr(obj, strArr[2]))
+                        strArr[3] = attrType(strArr[3])
                     setattr(obj, strArr[2], strArr[3])
                     obj.save()
-                #  attribute value doesen't exist:
-                except Exception:
-                    print("** value missing **")
+                except:
+                    print("** {} is not a valid value for {} **".format(
+                        strArr[3], strArr[2]))
+                    print("** {} must be a(n) {} **".format(
+                        strArr[2], attrType.__name__))
 
 
 if __name__ == '__main__':
