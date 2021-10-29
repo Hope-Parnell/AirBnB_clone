@@ -209,6 +209,7 @@ class HBNBCommand(cmd.Cmd):
                             break
                     if strArr[3][i] != '"':
                         print("** value missing **")
+                        return
                     else:
                         strArr[3] = strArr[3][1:i]
                     if strArr[2] in obj.__dict__:
