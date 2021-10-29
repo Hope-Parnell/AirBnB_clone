@@ -41,12 +41,13 @@ class HBNBCommand(cmd.Cmd):
         Ex: create BaseModel
         """
 #       error handling
-        if len(args) == 0:
+        argList = args.split(" ")
+        if len(argList[0]) == 0:
             print("** class name missing **")
-        elif args not in dict_greyson.keys():
+        elif argList[0] not in dict_greyson.keys():
             print("** class doesn't exist **")
         else:
-            objClass = dict_greyson[args]
+            objClass = dict_greyson[argList[0]]
 #           creates a new base model
             b = objClass()
 #           saves to json doc
