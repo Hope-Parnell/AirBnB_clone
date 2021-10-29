@@ -14,7 +14,6 @@ from models import dict_greyson, storage
 class HBNBCommand(cmd.Cmd):
     """class for the command console"""
     prompt = '(hbnb)'
-    storage.reload()
 
     def emptyline(self):
         pass
