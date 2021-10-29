@@ -34,13 +34,11 @@ class HBNBCommand(cmd.Cmd):
         """
         Creates a new instance of a class
         and prints its id
-
         Usage: create <Class Name>
-
         Ex: create BaseModel
         """
 #       error handling
-        argList = args.split()
+        argList = args.split(" ")
         if len(argList[0]) == 0:
             print("** class name missing **")
         elif argList[0] not in dict_greyson.keys():
@@ -58,13 +56,11 @@ class HBNBCommand(cmd.Cmd):
         """
         Prints the string representation of
         an instance
-
         Usage: show <class name> <id>
-
         Ex: show BaseModel 1234-1234-1234
         """
         #  array of words from args#
-        strArr = args.split()
+        strArr = args.split(" ")
         #  error handling
         if args == 0:
             print("** class name missing **")
@@ -89,13 +85,11 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, args):
         """
         Deletes an instance
-
         Usage: destroy <class name> <id>
-
         Ex: destroy BaseModel 1234-1234-1234
         """
         #  array of words from args
-        strArr = args.split()
+        strArr = args.split(" ")
         #  error handling
         if len(args) == 0:
             print("** class name missing **")
@@ -124,9 +118,7 @@ class HBNBCommand(cmd.Cmd):
         """
         Displays all istances of a given class
         or all instances if no class is specified
-
         Usage: all <class name>
-
         Ex: all
             lists all instances
         Ex: all BaseModel
@@ -147,7 +139,7 @@ class HBNBCommand(cmd.Cmd):
         #  Printing only specified objects
         else:
             #  array of words from args
-            strArr = args.split()
+            strArr = args.split(" ")
             #  checks if word is a recognized type
             if strArr[0] not in dict_greyson.keys():
                 print("** class doesn't exist **")
@@ -169,9 +161,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, args):
         """
         Updates an attribute of an instance
-
         Usage: update <class name> <id> <attribute> "<attribute value>"
-
         Ex: update BaseModel 1234-1234-1234 email "aibnb@mail.com"
         """
         #  dict of all obj in class.ID: obj format
@@ -181,7 +171,7 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
             return
         #  array of words from args
-        strArr = args.split(maxsplit=3)
+        strArr = args.split(" ", 3)
         if len(strArr) < 4:
             if len(strArr) == 1:
                 print("** instance id missing **")
