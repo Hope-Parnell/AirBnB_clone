@@ -39,13 +39,6 @@ class TestAll(unittest.TestCase):
                 self.assertEqual(f.readline(), "#!/usr/bin/python3\n",
                                  "first line needs shebang in {}".format(item))
 
-    def testREADME(self):
-        """tests for non-empty README"""
-        with open("README.md") as f:
-            self.assertNotEqual(len(f.read()), 0, " README is empty")
-        with open("tests/README.md") as f:
-            self.assertNotEqual(len(f.read()), 0, "README is empty")
-
     def testExecutable(self):
         for item in self.files:
             self.assertTrue(os.access(item, os.X_OK),

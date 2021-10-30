@@ -10,6 +10,9 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """initilizes the object"""
+        self.id = str(uuid4())
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
         if len(kwargs) > 0:
             for item in kwargs:
                 if item == 'created_at' or item == 'updated_at':
@@ -19,10 +22,6 @@ class BaseModel:
                     pass
                 else:
                     self.__dict__.update({item: kwargs.get(item)})
-        else:
-            self.id = str(uuid4())
-            self.created_at = datetime.datetime.now()
-            self.updated_at = datetime.datetime.now()
         models.storage.new(self)
 
     def __str__(self):
