@@ -54,11 +54,12 @@ class HBNBCommand(cmd.Cmd):
         Usage:
             (hbnb)create <Class Name>
             (hbnb)<class name>.create()
+            (hbnb)<class name>.create(<dictionary>)
         Ex:
             (hbnb)create BaseModel
             (hbnb)User.create()
+            (hbnb)User.create({"email": "hello@test.com", "i": 0})
         """
-#       error handling
         argList = args.split(" ")
         if len(argList[0]) == 0:
             print("** class name missing **")
@@ -66,23 +67,23 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             objClass = dict_greyson[argList[0]]
-#           creates a new base model
             b = objClass()
-#           saves to json doc
             b.save()
-#           prints ID
             print(b.id)
 
     def do_show(self, args):
         """
         Prints the string representation of
         an instance
-        Usage: show <class name> <id>
-        Ex: show BaseModel 1234-1234-1234
+
+        Usage:
+            (hbnb)show <class name> <id>
+            (hbnb)<class name>.show(<id>)
+        Ex:
+            (hbnb)show BaseModel 1234-1234-1234
+            (hbnb)User.show(1234-5678-9011)
         """
-        #  array of words from args#
         strArr = args.split(" ")
-        #  error handling
         if len(args) == 0:
             print("** class name missing **")
         elif strArr[0] not in dict_greyson.keys():
@@ -126,16 +127,16 @@ class HBNBCommand(cmd.Cmd):
         elif len(strArr) < 2:
             print("** instance id missing **")
             return
-#       name = class.ID
+        #  name = class.ID
         name = strArr[0] + "." + strArr[1]
-#       dict of all obj in class.ID: obj format
+        #  dict of all obj in class.ID: obj format
         d = storage.all()
-#       gets object based on name
+        # gets object based on name
         item = d.get(name)
-#       error handling
+        #  error handling
         if item is None:
             print("** no instance found **")
-#       deletes object from dictionary
+        #  deletes object from dictionary
         else:
             del d[name]
             storage.save()
@@ -242,8 +243,9 @@ class HBNBCommand(cmd.Cmd):
                     return
                 else:
                     strArr[3] = strArr[3][1:i]
-                    if strArr[3][0] == "_" and strArr[3][1] == "_":
-                        print("** cannot update private attribute **")
+                    if strArr[2][0] == "_" and strArr[2][1] == "_":
+                        print("** cannot update private attribute '{}' **".format(
+                            strArr[2]))
                         return
                 if strArr[2] in obj.__dict__:
                     attrType = type(getattr(obj, strArr[2]))
@@ -303,7 +305,6 @@ class HBNBCommand(cmd.Cmd):
             else:
                 raise TypeError("input must be dict")
 
-
     def do_save(self, args):
         """
         Saves all instances of a class to <filename>.
@@ -311,7 +312,7 @@ class HBNBCommand(cmd.Cmd):
         If no filename is given, it will be saved to
         "<class name>.json"
         <filename> should not contain whitespace.
-        Use "all" as <class name> to save all.
+        Use "ALL" as <class name> to save all.
 
         Usage:
             (hbnb)save <class name> "<filename>"
@@ -319,12 +320,12 @@ class HBNBCommand(cmd.Cmd):
         Ex:
             (hbnb)save User "my_users"
             (hbnb)User.save("my_users")
-            (hbnb)save all
-            (hbnb)all.save()
+            (hbnb)save ALL
+            (hbnb)ALL.save()
         """
         cmdArgs = args.split()
         if len(cmdArgs) == 0:
-            print("** class is missing **")
+            print("** class name missing **")
             return
         from models.engine.file_storage import FileStorage
         st = FileStorage()
@@ -335,26 +336,35 @@ class HBNBCommand(cmd.Cmd):
             st.file_path = cmdArgs[1][1:-1]
         else:
             st.file_path = cmdArgs[0] + ".json"
+            print(st.file_path)
+        d = storage.all()
+        for key in d:
+            if cmdArgs[0] == "ALL" or cmdArgs[0] in key:
+                st.new(d[key])
+        st.save()
 
     def do_list(self, args):
         """
         Displays the number of instances of a class
         and lists them in <class name>.<id> format,
         one per line.
-        If no class is specifed, all instances
-        will be listed
+        To print all instances <class name> is 'ALL'
 
         Usage: list <class name>
                <class name>.list()
         Ex:
             (hbnb)list User
-            (hbnb)list
+            (hbnb)list ALL
             (hbnb)Place.list()
+            (hbnb)ALL.list()
         """
         d = storage.all()
         arr = args.split()
-        c = []
         if len(arr) == 0:
+            print("** class name missing **")
+            return
+        c = []
+        if arr[0] == "ALL":
             arr = ["instance"]
             for key in d:
                 iStr = "{}.{}".format(type(d[key]).__name__, d[key].id)
@@ -375,7 +385,7 @@ class HBNBCommand(cmd.Cmd):
             print("There is 1 {}:".format(arr[0]))
         else:
             print("There are {} {}s:".format(len(c), arr[0]))
-        for item in c:
+        for item in sorted(c):
             print(item)
 
     def create(self, args):
@@ -389,6 +399,7 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     obj = dict_greyson[oClass[0]](**attr_dict)
                     print(obj.id)
+                    obj.save()
             else:
                 print("** class doesn't exist **")
         else:
@@ -420,7 +431,8 @@ class HBNBCommand(cmd.Cmd):
             print("*** Unknown syntax: {}3".format(line))
             return
         if command[0] in cmds:
-            cmds[command[0]]("{} {}".format(cmdClass[0], args))
+            new_var = cmds[command[0]]("{} {}".format(cmdClass[0], args))
+            new_var
         else:
             print("*** Unknown syntax: {}4".format(line))
             return

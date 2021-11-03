@@ -47,7 +47,9 @@ class FileStorage:
             """gets the current file path"""
             return self.__file_path
 
-        @file_path.getter
+        @file_path.setter
         def file_path(self, filePath):
             """sets the file to save to or load from"""
+            if type(filePath) is not str:
+                raise TypeError("file_path must be str")
             self.__file_path = filePath
