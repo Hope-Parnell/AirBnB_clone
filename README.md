@@ -1,5 +1,5 @@
 
-# AirBnB_clone Console
+# AirBnB_clone Console :house_with_garden:
 This project begins the Console for an AirBnB clone. The console can manipulate and store (in memory and in storage using JSON) BaseModels that will be used in later expansions upon this project.
 
 ## The console will handle the following tasks:
