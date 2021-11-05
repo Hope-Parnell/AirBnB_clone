@@ -10,6 +10,7 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 from models import dict_greyson, storage
+from models.engine.file_storage import FileStorage
 
 
 class HBNBCommand(cmd.Cmd):
@@ -324,7 +325,6 @@ class HBNBCommand(cmd.Cmd):
         if len(cmdArgs) == 0:
             print("** class name missing **")
             return
-        from models.engine.file_storage import FileStorage
         st = FileStorage()
         if len(cmdArgs) > 1:
             if cmdArgs[1][0] != '"' or cmdArgs[1][-1] != '"':
@@ -345,23 +345,19 @@ class HBNBCommand(cmd.Cmd):
         Displays the number of instances of a class
         and lists them in <class name>.<id> format,
         one per line.
-        To print all instances <class name> is 'ALL'
+        if no class is specifed, lists all instances
 
         Usage: list <class name>
                <class name>.list()
         Ex:
             (hbnb)list User
-            (hbnb)list ALL
+            (hbnb)list
             (hbnb)Place.list()
-            (hbnb)ALL.list()
         """
         d = storage.all()
         arr = args.split()
-        if len(arr) == 0:
-            print("** class name missing **")
-            return
         c = []
-        if arr[0] == "ALL":
+        if len(arr) == 0:
             arr = ["instance"]
             for key in d:
                 c.append(key)
@@ -381,6 +377,36 @@ class HBNBCommand(cmd.Cmd):
             print("There are {} {}s:".format(len(c), arr[0]))
         for item in sorted(c):
             print(item)
+
+    def do_load(self, args):
+        """
+        Loads objects from a file
+        and adds them to storage
+
+        If no filename is specifed
+        "file.json" will be used
+
+        *<filename> should not contain
+        whitespace
+
+        Usage:
+            (hbnb)load "<filename>"
+        Ex:
+            (hbnb)load "User.json"
+        """
+        st = FileStorage()
+        filename = args.split()
+        if len(filename) > 0:
+            if filename[0][0] != '"' or filename[0][-1] != '"':
+                print("** filename must be in \"quotes\" **")
+                return
+            else:
+                st.file_path = filename[0][1:-1]
+        st.reload()
+        d = st.all()
+        for key in d:
+            storage.new(d[key])
+        storage.save()
 
     def create(self, args):
         """creates a new object"""
