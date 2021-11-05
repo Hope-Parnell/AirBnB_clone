@@ -177,10 +177,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 #  o is name in class.ID format
                 for o in d:
-                    #  splits cls.ID into cls and ID
-                    nameSplitArr = o.split(".")
-                    #  checks if class is recognized
-                    if nameSplitArr[0] == strArr[0]:
+                    if strArr[0] in o:
                         #  gets object for each name
                         item = d.get(o)
                         #  adds str rep of each obj to list
@@ -336,8 +333,8 @@ class HBNBCommand(cmd.Cmd):
             st.file_path = cmdArgs[1][1:-1]
         else:
             st.file_path = cmdArgs[0] + ".json"
-            print(st.file_path)
         d = storage.all()
+        st.clear()
         for key in d:
             if cmdArgs[0] == "ALL" or cmdArgs[0] in key:
                 st.new(d[key])
@@ -367,15 +364,12 @@ class HBNBCommand(cmd.Cmd):
         if arr[0] == "ALL":
             arr = ["instance"]
             for key in d:
-                iStr = "{}.{}".format(type(d[key]).__name__, d[key].id)
-                c.append(iStr)
+                c.append(key)
         else:
             if arr[0] in dict_greyson:
                 for key in d:
-                    objClass = key.split(".")
-                    if objClass[0] == arr[0]:
-                        iStr = "{}.{}".format(type(d[key]).__name__, d[key].id)
-                        c.append(iStr)
+                    if arr[0] in key:
+                        c.append(key)
             else:
                 print("** class doesn't exist **")
                 return
