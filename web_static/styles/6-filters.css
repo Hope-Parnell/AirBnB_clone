@@ -1,4 +1,5 @@
 .filters{
+	z-index: 9999;
 	background-color: white;
 	height: 70px;
 	width: 100%;
@@ -40,12 +41,14 @@ ul{
 }
 
 .popover{
+	z-index: 9999;
 	visibility: hidden;
 	background-color: #FAFAFA;
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
 	padding-bottom: 15px;
 	padding-top: 15px;
+	position: relative;
 }
 
 .locations:hover > .popover,
