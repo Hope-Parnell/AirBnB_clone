@@ -1,4 +1,3 @@
-
 # AirBnB_clone Console :house_with_garden:
 This project begins the Console for an AirBnB clone. The console can manipulate and store (in memory and in storage using JSON) BaseModels that will be used in later expansions upon this project.
 
@@ -9,15 +8,15 @@ This project begins the Console for an AirBnB clone. The console can manipulate 
 
 ## Files and Directories:
 - console
-runs the console for the project. 
-- models 
+runs the console for the project.
+- models
 directory will contain all classes used for the entire project. A class, called “model” in a OOP project is the representation of an object/instance.
- -	tests 
+ -	tests
 directory will contain all unit tests.
-- console.py 
+- console.py
   file is the entry point of our command interpreter.
 - models
-	- base_model.py 
+	- base_model.py
 	  file is the base class of all our models. It contains common elements:
 	   attributes: id, created_at and updated_at
 	- User
@@ -32,8 +31,8 @@ directory will contain all unit tests.
 	Class for Place. Contains city_id, user_id, name, description, number_rooms, number_bathrooms, max_guest, price_by_night, amenity_ids, latitude, and longitude attributes
 	- Review:
 		Class for Review. Contains place_id, user_id, and text attributes
-	- engine 		
-	  directory will contain all storage classes (using the same prototype). For the moment you will have only one: 
+	- engine
+	  directory will contain all storage classes (using the same prototype). For the moment you will have only one:
 		-	file_storage.py
 		 methods and files for file storage in the project
 
@@ -48,8 +47,8 @@ Documented commands (type help \<topic\>):
 
 EOF  help  quit
 
-(hbnb) 
-(hbnb) 
+(hbnb)
+(hbnb)
 (hbnb) quit
 $
 ```
@@ -60,7 +59,7 @@ $ echo "help" | ./console.py
 Documented commands (type help <topic>):
 ========================================
 EOF  help  quit
-(hbnb) 
+(hbnb)
 $
 $ cat test_help
 help
@@ -71,7 +70,7 @@ $ cat test_help | ./console.py
 Documented commands (type help <topic>):
 ========================================
 EOF  help  quit
-(hbnb) 
+(hbnb)
 $
 ```
 
@@ -122,173 +121,24 @@ implement BaseModel method to convert a BaseModel to a dictionary Python object
 
 Objects are stored in using the following framework:
 
-**class 'BaseModel' 
--> 
-to_dict() 
--> 
-class 'dict' 
--> 
-JSON dump 
--> 
-class 'str' 
--> 
-FILE 
--> 
-class 'str'
--> 
-JSON load 
--> 
+**class 'BaseModel'
+->
+to_dict()
+->
 class 'dict'
--> 
-class 'BaseModel'**
-
-
----
-
-### 6. Console 0.0.1
-
-Objects are stored in using the following framework:
-
-# AirBnB_clone Console
-
-(optional) This project begins the Console for an AirBnB clone. The console can manipulate and store (in memory and in storage using JSON) BaseModels that will be used in later expansions upon this project.
-The console will handle the following tasks:
-- create your data model
-- manage (create, update, destroy, etc) objects via a console / command interpreter
-- store and persist objects to a file (JSON file)
-
-Files and Directories:
-models 
-  directory will contain all classes used for the entire project. A class, called “model” in a OOP project is the representation of an object/instance.
-tests 
-  directory will contain all unit tests.
-console.py 
-  file is the entry point of our command interpreter.
-models/base_model.py 
-  file is the base class of all our models. It contains common elements:
-    attributes: id, created_at and updated_at
-methods: 
-  save() and to_json()
-models/engine 
-  directory will contain all storage classes (using the same prototype). For the moment you will have only one: file_storage.py.
-
-Engine:
-FileStorage:
-Console:
-
-Models:
-BaseModel:
-User:
-State:
-City:
-Amenity:
-Place:
-Review:
-
-Execution:
-Interactive Mode:
-```
-$ ./console.py
-(hbnb) help
-
-Documented commands (type help \<topic\>):
-========================================
-
-EOF  help  quit
-
-(hbnb) 
-(hbnb) 
-(hbnb) quit
-$
-Non-interactive Mode:
-  $ echo "help" | ./console.py
-(hbnb)
-```
-```
-Documented commands (type help <topic>):
-========================================
-EOF  help  quit
-(hbnb) 
-$
-$ cat test_help
-help
-$
-$ cat test_help | ./console.py
-(hbnb)
-
-Documented commands (type help <topic>):
-========================================
-EOF  help  quit
-(hbnb) 
-$
-```
-___
-
-## Important concepts
-Key takeaways/topics from project.
-* How to create a Python package
-* How to create a command interpreter in Python using the cmd module
-* What is Unit testing and how to implement it in a large project
-* How to serialize and deserialize a Class
-* How to write and read a JSON file
-* How to manage datetime
-* What is an UUID
-* What is args and how to use it
-* What is kwargs and how to use it
-* How to handle named arguments in a function
-
-## Tasks
-List of tasks with brief descriptions of each task.
-### 0. README, AUTHORS
-README and AUTHORS files exist and explain the project
-
----
-### 1. Be PEP8 compliant!
-
-code is PEP8 / pycodestyle compliant
-
----
-
-### 2. UnitTesting
-
-each part of code is thoroughly unit tested
-
----
-
-### 3. BaseModel
-
-write BaseModel class that defines all common attributes/methods for other classes
-
----
-
-### 4. Create BaseModel from dictionary
-
-implement BaseModel method to convert a BaseModel to a dictionary Python object
-
----
-
-### 5. Store first object
-
-Objects are stored in using the following framework:
-
-**class 'BaseModel' 
--> 
-to_dict() 
--> 
-class 'dict' 
--> 
-JSON dump 
--> 
-class 'str' 
--> 
-FILE 
--> 
+->
+JSON dump
+->
 class 'str'
--> 
-JSON load 
--> 
+->
+FILE
+->
+class 'str'
+->
+JSON load
+->
 class 'dict'
--> 
+->
 class 'BaseModel'**
 
 
