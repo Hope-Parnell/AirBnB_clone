@@ -438,23 +438,23 @@ class HBNBCommand(cmd.Cmd):
         if '.' in line:
             cmdClass = line.split('.', 1)
         else:
-            print("*** Unknown syntax: {}1".format(line))
+            print("*** Unknown syntax: {}".format(line))
             return
         if '(' in cmdClass[1]:
             command = cmdClass[1].split('(', 1)
         else:
-            print("*** Unknown syntax: {}2".format(line))
+            print("*** Unknown syntax: {}".format(line))
             return
         if command[1][-1] == ')':
             args = command[1][0:-1]
         else:
-            print("*** Unknown syntax: {}3".format(line))
+            print("*** Unknown syntax: {}".format(line))
             return
         if command[0] in cmds:
             new_var = cmds[command[0]]("{} {}".format(cmdClass[0], args))
             new_var
         else:
-            print("*** Unknown syntax: {}4".format(line))
+            print("*** Unknown syntax: {}".format(line))
             return
 
 
