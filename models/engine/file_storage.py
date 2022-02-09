@@ -42,12 +42,18 @@ class FileStorage:
         except Exception:
             pass
 
-        @property
-        def file_path(self):
-            """gets the current file path"""
-            return self.__file_path
+    def clear(self):
+        """clears objects"""
+        self.__objects = {}
 
-        @file_path.getter
-        def file_path(self, filePath):
-            """sets the file to save to or load from"""
-            self.__file_path = filePath
+    @property
+    def file_path(self):
+        """gets the current file path"""
+        return self.__file_path
+
+    @file_path.setter
+    def file_path(self, filePath):
+        """sets the file to save to or load from"""
+        if type(filePath) is not str:
+            raise TypeError("file_path must be str")
+        self.__file_path = filePath

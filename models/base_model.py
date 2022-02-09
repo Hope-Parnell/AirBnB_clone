@@ -10,19 +10,36 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """initilizes the object"""
-        if len(kwargs) > 0:
-            for item in kwargs:
-                if item == 'created_at' or item == 'updated_at':
-                    self.__dict__.update({item: datetime.datetime.strptime(
-                        kwargs.get(item), '%Y-%m-%dT%H:%M:%S.%f')})
-                elif item == "__class__":
-                    pass
+        self.id = str(uuid4())
+        self.created_at = datetime.datetime.now()
+        self.updated_at = datetime.datetime.now()
+        for key in kwargs:
+            if key == "__class__":
+                continue
+            item = kwargs[key]
+            oType = type(self)
+            if key in self.__dict__:
+                iType = type(self.__dict__[key])
+                if iType is datetime.datetime:
+                    item = datetime.datetime.strptime(
+                        item, '%Y-%m-%dT%H:%M:%S.%f')
                 else:
-                    self.__dict__.update({item: kwargs.get(item)})
-        else:
-            self.id = str(uuid4())
-            self.created_at = datetime.datetime.now()
-            self.updated_at = datetime.datetime.now()
+                    try:
+                        item = iType(item)
+                    except Exception:
+                        pass
+            elif key in oType.__dict__:
+                iType = type(oType.__dict__[key])
+                if iType is datetime.datetime:
+                    item = datetime.datetime.strptime(
+                        item, '%Y-%m-%dT%H:%M:%S.%f')
+                else:
+                    try:
+                        item = iType(item)
+                    except Exception:
+                        pass
+            self.__dict__.update({key: item})
+
         models.storage.new(self)
 
     def __str__(self):

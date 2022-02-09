@@ -10,10 +10,11 @@ class TestFileStorage(unittest.TestCase):
     def setUp(self):
         """setup before each test"""
         self.fs = FileStorage()
+        self.fs.file_path = "test.json"
 
     def tearDown(self):
         """clean up after each test"""
-        with open("file.json", "w") as f:
+        with open("test.json", "w") as f:
             blankDict = {}
             f.write("{}".format(blankDict))
 
@@ -37,7 +38,7 @@ class TestFileStorage(unittest.TestCase):
                       updated_at="1020-02-13T07:10:03.134263")
         self.fs.new(a)
         self.fs.save()
-        with open("file.json") as f:
+        with open("test.json") as f:
             line = f.readline()
             string = ['{"BaseModel.69": {"id": 69, "created_at"',
                       ': "1000-07-29T12:14:07.132263", "updated_at": ',
